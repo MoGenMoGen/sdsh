@@ -86,7 +86,7 @@ export default {
     //收藏
     addFavorite() {
       let url = window.location.href;
-      let title = "之江法云";
+      let title = "山东商会";
       try {
         window.external.addFavorite(url, title);
       } catch (e) {

@@ -5,9 +5,9 @@
     :class="{ topic: ifTopic }"
   >
     <div id="header" :style="{ width: bWidth + 'px' }" v-show="!declare">
-      <div class="header-top" >
+      <div class="header-top">
         <img
-        @click="tohome"
+          @click="tohome"
           src="@/img/logo.png"
           style="width: 455px; height: 88px; object-fit: fill"
           alt=""
@@ -92,9 +92,7 @@ export default {
       ifTopic: false, //是否专题
     };
   },
-  computed: {
-   
-  },
+  computed: {},
   async mounted() {
     // return
     // const script = document.createElement('script')
@@ -109,56 +107,18 @@ export default {
     this.changeRoute();
     this.$nextTick(() => {
       this.getWidth();
-      this.ifPC();
+      // this.ifPC();
     });
     window.onresize = () => {
       return (() => {
         this.getWidth();
-        this.ifPC();
+        // this.ifPC();
       })();
     };
     this.getNav();
-    this.navList.push(
-      ...[
-        {
-          title: "商会介绍",
-          id: "1",
-        },
-        {
-          title: "领导班子",
-          id: "2",
-        },
-        {
-          title: "商会新闻",
-          id: "3",
-        },
-        {
-          title: "通知公告",
-          id: "4",
-        },
-        {
-          title: "商会活动",
-          id: "5",
-        },
-        {
-          title: "党建新闻",
-          id: "6",
-        },
-        {
-          title: "商会会刊",
-          id: "7",
-        },
-        {
-          title: "会员风采",
-          id: "8",
-        },
-        {
-          title: "政策导航",
-          id: "9",
-        },
-      ]
-    );
-    console.log(12424, this.navList);
+    // this.navList.push(
+
+    // );
   },
 
   methods: {
@@ -226,7 +186,7 @@ export default {
     //收藏
     addFavorite() {
       let url = window.location.href;
-      let title = "之江法云";
+      let title = "山东商会";
       try {
         window.external.addFavorite(url, title);
       } catch (e) {
@@ -263,7 +223,7 @@ export default {
           this.navList.push(item);
         }
       });
-      // console.log(1242345,data);
+      console.log(1242345, this.navList);
     },
 
     toPage(item, index) {
@@ -278,12 +238,13 @@ export default {
           query: {
             id: item.id,
             nm: item.title,
+            showType: item.showType,
           },
         });
       }
     },
-    tohome(){
-window.location.replace('/')
+    tohome() {
+      window.location.replace("/");
     },
     changeRoute() {
       if (window.location.pathname.indexOf("/topic") > -1) {
@@ -345,12 +306,12 @@ body {
 }
 #container {
   background: #f2f3f7;
-  /*background: url("./img/bg.png") repeat center;*/
-  /*display: flex;*/
-  /*display: -webkit-flex;*/
-  /*flex-direction: column;*/
-  /*width: 100%;*/
-  /*height: 100%;*/
+  // background: url("./img/bg.png") repeat center;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
 
   #header {
     border-bottom: 1px solid #e1e1e1;

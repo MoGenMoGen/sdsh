@@ -4,12 +4,12 @@
 import { MessageBox } from 'element-ui'
 // let hostUrl = "http://127.0.0.1"
 // let hostUrl = "http://pj.xiaomy.net"
-let hostUrl = "http://zjfyadm.jinkworld.com/"
-if(process.client){
-  hostUrl = ''
-}else {
-  hostUrl = 'http://zjfyadm.jinkworld.com/'
-  // hostUrl = 'http://192.168.0.18/'
+let hostUrl = "http://sdsh.jinkworld.com"
+if (process.client) {
+    hostUrl = ''
+} else {
+    hostUrl = 'http://sdsh.jinkworld.com'
+    // hostUrl = 'http://192.168.0.18/'
 }
 // console.log(process.client)
 // let hostUrl = ""
@@ -28,21 +28,21 @@ function get(url, data, header) {
     }
 
     let promise = new Promise((resolve, reject) => {
-        axios.get(hostUrl+url, {
+        axios.get(url, {
             params: data
         })
             .then(function (res) {
-               if(res.data.code===200){
-                 resolve(res.data)
-               }else {
-                   MessageBox({
-                       message: res.data.msg ||  res.data.message,
-                       type: 'warning'
-                   });
-               }
+                if (res.data.code === 200) {
+                    resolve(res.data)
+                } else {
+                    MessageBox({
+                        message: res.data.msg || res.data.message,
+                        type: 'warning'
+                    });
+                }
             })
             .catch(function (error) {
-              console.log(error)
+                console.log(error)
                 MessageBox({
                     message: JSON.stringify(error),
                     type: 'warning'
@@ -56,13 +56,13 @@ function get(url, data, header) {
 function post(url, data, header) {
 
     let promise = new Promise((resolve, reject) => {
-        axios.post(hostUrl+url, data)
+        axios.post(url, data)
             .then(function (res) {
-                if(res.data.code===0){
+                if (res.data.code === 0) {
                     resolve(res.data)
-                }else {
+                } else {
                     MessageBox({
-                        message: res.data.msg ||  res.data.message,
+                        message: res.data.msg || res.data.message,
                         type: 'warning'
                     });
                 }
@@ -81,7 +81,7 @@ class api {
     //获取栏目
     getMenuNav(data) {
         return new Promise((resolve, reject) => {
-            get("/open/blade-content/contentcat/listByParentId",data).then(res => {
+            get("/open/blade-content/contentcat/listByParentId", data).then(res => {
 
                 resolve(res.data)
             });
@@ -90,7 +90,7 @@ class api {
     //获取栏目下的列表
     getList(data) {
         return new Promise((resolve, reject) => {
-            get("/sys/news/api/page?query="+data).then(res => {
+            get("/sys/news/api/page?query=" + data).then(res => {
                 // res.data.list.forEach(item=>{
                 //     if(!item.summary){
                 //         let cont = item.cont.replace(/<\/?[^>]*>/g, "")
@@ -101,24 +101,24 @@ class api {
             });
         });
     }
-  //获取栏目下的列表旧的
-  getList2(data) {
-    return new Promise((resolve, reject) => {
-      get("/sys/news/api/pageACat?query="+data).then(res => {
-        // res.data.list.forEach(item=>{
-        //   if(!item.summary){
-        //     let cont = item.cont.replace(/<\/?[^>]*>/g, "")
-        //     item.summary =  cont.replace(/&nbsp;/ig, "").slice(0,50)+'...';
-        //   }
-        // })
-        resolve(res)
-      });
-    });
-  }
+    //获取栏目下的列表旧的
+    getList2(data) {
+        return new Promise((resolve, reject) => {
+            get("/sys/news/api/pageACat?query=" + data).then(res => {
+                // res.data.list.forEach(item=>{
+                //   if(!item.summary){
+                //     let cont = item.cont.replace(/<\/?[^>]*>/g, "")
+                //     item.summary =  cont.replace(/&nbsp;/ig, "").slice(0,50)+'...';
+                //   }
+                // })
+                resolve(res)
+            });
+        });
+    }
     //获取栏目下的所有列表
     getAllList(data) {
         return new Promise((resolve, reject) => {
-            get("/sys/news/api/pageNewsByParentCatId",data).then(res => {
+            get("/sys/news/api/pageNewsByParentCatId", data).then(res => {
                 // res.data.list.forEach(item=>{
                 //     if(!item.summary){
                 //         let cont = item.cont.replace(/<\/?[^>]*>/g, "")
@@ -129,28 +129,28 @@ class api {
             });
         });
     }
-  //新媒列表
-  getMedia(data) {
-    return new Promise((resolve) => {
-      get("/open/blade-media/mediagather/list",data).then(res => {
-        resolve(res.data)
-      });
-    });
-  }
+    //新媒列表
+    getMedia(data) {
+        return new Promise((resolve) => {
+            get("/open/blade-media/mediagather/list", data).then(res => {
+                resolve(res.data)
+            });
+        });
+    }
     //获取栏目下所有的列表
     getListAll(data) {
         return new Promise((resolve, reject) => {
-            get("/open/blade-content/contentdetail/pages",data).then(res => {
-              res.data.records.forEach(item=>{
-                if(!item.summary){
-                  if(item.cont){
-                    let cont =item.cont.replace(/<\/?[^>]*>/g, "")
+            get("/open/blade-content/contentdetail/pages", data).then(res => {
+                res.data.records.forEach(item => {
+                    if (!item.summary) {
+                        if (item.cont) {
+                            let cont = item.cont.replace(/<\/?[^>]*>/g, "")
 
-                    item.summary =  cont.replace(/&nbsp;/ig, "").slice(0,50)+'...';
-                  }
+                            item.summary = cont.replace(/&nbsp;/ig, "").slice(0, 50) + '...';
+                        }
 
-                }
-              })
+                    }
+                })
                 resolve(res.data)
             });
         });
@@ -159,32 +159,32 @@ class api {
     //获取新闻详情
     getDetail(id) {
         return new Promise((resolve, reject) => {
-            get("/open/blade-content/contentdetail/info?id="+id).then(res => {
+            get("/open/blade-content/contentdetail/info?id=" + id).then(res => {
                 resolve(res.data)
             });
         });
     }
     //新闻详情，返回所属栏目信息
-    getNewDetail(id){
+    getNewDetail(id) {
         return new Promise((resolve, reject) => {
-            get("/open/blade-content/contentdetail/info?id="+id).then(res => {
+            get("/open/blade-content/contentdetail/info?id=" + id).then(res => {
                 resolve(res.data)
             });
         });
 
     }
-  //阅读数量
-  readAdd(id){
-    get("/open/blade-content/contentdetail/readQty?id="+id,'',true);
+    //阅读数量
+    readAdd(id) {
+        get("/open/blade-content/contentdetail/readQty?id=" + id, '', true);
 
-  }
+    }
     //搜索
     search(data) {
         return new Promise((resolve, reject) => {
-            get("/sys/newsSearch/api/page",data).then(res => {
-                res.data.result.forEach(item=>{
+            get("/sys/newsSearch/api/page", data).then(res => {
+                res.data.result.forEach(item => {
 
-                        item.cont =  item.cont.length>200?item.cont.slice(0,200)+'...' : item.cont
+                    item.cont = item.cont.length > 200 ? item.cont.slice(0, 200) + '...' : item.cont
 
                 })
                 resolve(res)
@@ -194,37 +194,37 @@ class api {
     //搜索详情
     searchDetail(id) {
         return new Promise((resolve, reject) => {
-            get("/sys/newsSearch/api/info/"+id,).then(res => {
+            get("/sys/newsSearch/api/info/" + id,).then(res => {
                 resolve(res.data)
             });
         });
     }
     //获取广告图集
-    getAdr(pos,qty) {
+    getAdr(pos, qty) {
         let data = {}
-        if(qty){
+        if (qty) {
             data = {
-                posCd:pos,
-                tntId:1,
-                type:2,
-                adNums:qty
+                posCd: pos,
+                tntId: 1,
+                type: 2,
+                adNums: qty
             }
-        }else {
+        } else {
             data = {
-                posCd:pos,
-                tntId:1,
-                type:2,
+                posCd: pos,
+                tntId: 1,
+                type: 2,
             }
         }
 
         return new Promise((resolve, reject) => {
-            get("/open/advertinfo/listAdsByPos",data).then(res => {
-              // console.log('广告')
-              res.data.forEach(item=>{
-                if(item.locUrl.indexOf('www.zjfzol.com.cn/pc')>-1){
-                  item.locUrl = window.location.origin+'/pc'+item.locUrl.split('#')[1]
-                }
-              })
+            get("/open/advertinfo/listAdsByPos", data).then(res => {
+                // console.log('广告')
+                res.data.forEach(item => {
+                    if (item.locUrl.indexOf('www.zjfzol.com.cn/pc') > -1) {
+                        item.locUrl = window.location.origin + '/pc' + item.locUrl.split('#')[1]
+                    }
+                })
                 console.log(res.data)
                 resolve(res.data)
             });
@@ -233,13 +233,13 @@ class api {
     //富文本详情
     getPage(data) {
         return new Promise((resolve, reject) => {
-            get("/sys/show/api/pageInfo?query="+data,).then(res => {
+            get("/sys/show/api/pageInfo?query=" + data,).then(res => {
                 resolve(res.data)
             });
         });
     }
     //友情链接栏目
-    getLink(){
+    getLink() {
         return new Promise((resolve, reject) => {
             get("/law/friendlinkColumn/api/list",).then(res => {
                 resolve(res.data.list)
@@ -249,7 +249,7 @@ class api {
     //友情链接列表
     getLinkList(id) {
         return new Promise((resolve, reject) => {
-            get("/law/friendLink/api/list?columnId="+id,).then(res => {
+            get("/law/friendLink/api/list?columnId=" + id,).then(res => {
                 resolve(res.data.list)
             });
         });
@@ -258,7 +258,7 @@ class api {
     //首页
 
     //banner背景及二维码
-    getBanner(){
+    getBanner() {
         return new Promise((resolve, reject) => {
             get("/sys/homePage/listAds1",).then(res => {
                 resolve(res.data)
@@ -267,7 +267,7 @@ class api {
     }
 
     //首页其他四个广告位
-    getHomeBanner(){
+    getHomeBanner() {
         return new Promise((resolve, reject) => {
             get("/sys/homePage/listAds2",).then(res => {
                 resolve(res.data)
@@ -276,23 +276,23 @@ class api {
     }
 
     //导航栏
-    getNav(data){
+    getNav(data) {
         return new Promise((resolve, reject) => {
-            get("/sys/homePage/listNewsCat?query="+data,).then(res => {
+            get("/sys/homePage/listNewsCat?query=" + data,).then(res => {
                 resolve(res.data.list)
             });
         });
     }
 
     //首页新闻
-    getHomeNew(params){
+    getHomeNew(params) {
         return new Promise((resolve, reject) => {
             get("/sys/homePage/news", params).then(res => {
-                for(let [k,v] of Object.entries(res.data)){
-                    v.forEach(i=>{
-                        if(!i.summary){
+                for (let [k, v] of Object.entries(res.data)) {
+                    v.forEach(i => {
+                        if (!i.summary) {
                             let cont = i.cont ? i.cont.replace(/<\/?[^>]*>/g, "") : ''
-                            i.summary =  cont.replace(/&nbsp;/ig, "").slice(0,50)+'...';
+                            i.summary = cont.replace(/&nbsp;/ig, "").slice(0, 50) + '...';
                         }
                     })
                 }
@@ -303,42 +303,42 @@ class api {
     }
 
     //专题栏目
-    themeList(data){
+    themeList(data) {
         return new Promise((resolve, reject) => {
-            get("/theme/column/api/template/page?query="+data,).then(res => {
+            get("/theme/column/api/template/page?query=" + data,).then(res => {
                 resolve(res)
             });
         });
     }
     //专题内容
-    themeInfo(data){
+    themeInfo(data) {
         return new Promise((resolve, reject) => {
-            get("/theme/column/api/template/datas",data,).then(res => {
+            get("/theme/column/api/template/datas", data,).then(res => {
                 resolve(res.data)
             });
         });
     }
 
     //专题内容
-    themeContent(data){
+    themeContent(data) {
         return new Promise((resolve, reject) => {
-            get("/theme/column/api/template/show",data,).then(res => {
+            get("/theme/column/api/template/show", data,).then(res => {
                 resolve(res.data)
             });
         });
     }
-//专题URL
-    themeUrl(data){
+    //专题URL
+    themeUrl(data) {
         return new Promise((resolve, reject) => {
-            get("/theme/column/api/template/show2",data,).then(res => {
+            get("/theme/column/api/template/show2", data,).then(res => {
                 resolve(res.data)
             });
         });
     }
     //电子杂志
-    eZineList(data){
+    eZineList(data) {
         return new Promise((resolve, reject) => {
-            get("/law/pdf/api/page2",data,).then(res => {
+            get("/law/pdf/api/page2", data,).then(res => {
                 resolve(res)
             });
         });
@@ -352,67 +352,67 @@ class api {
     //     });
     // }
     //抖音统计阅读量
-    douYinRead(id){
-        return get('/law/douyin/api/readStat/'+id)
+    douYinRead(id) {
+        return get('/law/douyin/api/readStat/' + id)
 
     }
     //抖音账号
-    getDouYinCount(){
+    getDouYinCount() {
         return new Promise((resolve => {
-            get('/law/douyinAccount/api/list').then(res=>{
+            get('/law/douyinAccount/api/list').then(res => {
                 resolve(res.data.list)
             })
         }))
     }
     //抖音账号下的抖音视频列表
-    getDouYiList(data){
+    getDouYiList(data) {
         return new Promise((resolve => {
-            get('/law/douyin/api/pagePc?query='+data).then(res=>{
+            get('/law/douyin/api/pagePc?query=' + data).then(res => {
                 resolve(res)
             })
         }))
     }
     //调查问卷题目列表
-    getQuestionnaireList(id){
+    getQuestionnaireList(id) {
         return new Promise((resolve => {
-            get('/sys/newsAsk/api/listTreeByNewsId?newsId='+id).then(res=>{
+            get('/sys/newsAsk/api/listTreeByNewsId?newsId=' + id).then(res => {
                 resolve(res.data.list)
             })
         }))
     }
-    sumbitQuestionnaire(data){
+    sumbitQuestionnaire(data) {
         return new Promise((resolve => {
-            post('/sys/newsOptionVote/api/vote',data).then(res=>{
+            post('/sys/newsOptionVote/api/vote', data).then(res => {
                 resolve(res)
             })
         }))
     }
     //问卷结果
-    voteResult(id){
+    voteResult(id) {
         return new Promise((resolve => {
-            get('/sys/newsAskOption/api/listAAsk?newsId='+id).then(res=>{
+            get('/sys/newsAskOption/api/listAAsk?newsId=' + id).then(res => {
                 resolve(res.data.list)
             })
         }))
     }
     //留言提交
-    feedback(data){
+    feedback(data) {
         return new Promise(resolve => {
-            post('/law/msgDiscuss/api/addMsg',data).then(res=>{
+            post('/law/msgDiscuss/api/addMsg', data).then(res => {
                 resolve(res)
             })
         })
     }
     //公众号外链
-    getWX(url){
+    getWX(url) {
         return new Promise(resolve => {
-            let showSrc = 'https://cors-anywhere.herokuapp.com/'+url; //协议名根据实际情况决定
+            let showSrc = 'https://cors-anywhere.herokuapp.com/' + url; //协议名根据实际情况决定
             axios.get(showSrc)
                 .then(function (response) {
                     let html = response.data;
                     html = html.replace(/data-src/g, "src")
                         .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g, '')
-                        .replace(/https/g,'http');
+                        .replace(/https/g, 'http');
                     let html_src = 'data:text/html;charset=utf-8,' + html;
                     resolve(html_src)
                     // let iframe = document.getElementById('iFrame');
@@ -428,4 +428,4 @@ class api {
     }
 }
 
-export { api,hostUrl };
+export { api, hostUrl };

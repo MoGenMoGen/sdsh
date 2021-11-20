@@ -181,7 +181,7 @@
       }
       //列表
       if(context.query.nm && context.query.id){
-        title = '之江法云 - '+context.query.nm
+        title = '山东商会 - '+context.query.nm
         let param = {
           catId:context.query.id,
           siteId:1,

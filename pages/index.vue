@@ -1,18 +1,23 @@
 <template>
   <div id="home" :style="{ width: bWidth + 'px' }">
     <div class="main" :style="{ width: width + 'px' }">
-      <img
-        src="@/img/banner.png"
-        alt=""
-        style="width: 100%; height: 350px; object-fit: fill; margin: 15px 0"
-      />
+      <el-carousel style="height: 350px; margin: 15px 0">
+        <el-carousel-item v-for="(item, index) in banner" :key="index">
+          <img
+            :src="item.imgUrl"
+            alt=""
+            style="width: 100%; height: 350px; object-fit: cover"
+          />
+        </el-carousel-item>
+      </el-carousel>
+
       <div class="news_info">
-        <homeNewList id="3"></homeNewList>
-        <homeNewList id="4"></homeNewList>
-        <homeNewList id="5"></homeNewList>
-        <homeNewList id="6"></homeNewList>
-        <homeNewList id="8"></homeNewList>
-        <homeNewList id="2"></homeNewList>
+        <homeNewList type="3"></homeNewList>
+        <homeNewList type="4"></homeNewList>
+        <homeNewList type="5"></homeNewList>
+        <homeNewList type="6"></homeNewList>
+        <homeNewList type="8"></homeNewList>
+        <homeNewList type="2"></homeNewList>
       </div>
       <div class="friend_link">
         <div class="title_box">
@@ -24,9 +29,9 @@
             class="item"
             v-for="(item, index) in friendLinks"
             :key="index"
-            @click="toLink(item.url)"
+            @click="toLink(item.relaUrl)"
           >
-            {{ item.nm
+            {{ item.name
             }}<span
               style="margin: 0 20px; color: rgba(0, 0, 0, 0.2)"
               v-if="index != friendLinks.length - 1"
@@ -74,15 +79,22 @@ export default {
           url: "http://www.baidu.com",
         },
       ],
+      banner: [],
     };
   },
   components: {
     SocityRaw,
     homeNewList,
   },
-  mounted() {
+  async mounted() {
     // return
     this.getWidth();
+    //轮播图
+    this.api.getAdr("ADPOS.001", 2).then((res) => {
+      this.banner = res;
+    });
+    //友情链接
+    this.friendLinks=await this.api.getMedia();
   },
   watch: {},
   methods: {
@@ -101,7 +113,9 @@ export default {
         this.bWidth = width;
       }
     },
-
+    async getList(data) {
+      return await this.api.getListAll(data);
+    },
     toList(nm, item) {
       let param = {};
       if (item.pid) {
