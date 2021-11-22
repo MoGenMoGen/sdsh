@@ -36,6 +36,18 @@ export default {
       total: 0,
     };
   },
+  props: {
+    leaderTitle: {
+      default: "",
+      type: String,
+    },
+  },
+  watch: {
+    leaderTitle() {
+      this.pageNo = 1;
+      this.getList();
+    },
+  },
   methods: {
     handleCurrentChange(val) {
       this.pageNo = val;
@@ -46,16 +58,20 @@ export default {
         cids: "1458383124973244417",
         current: this.pageNo,
         size: this.pageSize,
+        cont: this.leaderTitle,
       });
-
       this.List = data.records;
       this.total = data.total;
     },
     toDetail(item) {
+      console.log("去领导详情");
       this.$emit("getDetail", item);
     },
   },
   mounted() {
+    console.log('mountedsssssss');
+    this.$parent.leaderTitle = "";
+    console.log(11111,this.leaderTitle);
     this.getList();
   },
 };

@@ -87,6 +87,7 @@ class api {
             });
         });
     }
+
     //获取栏目下的列表
     getList(data) {
         return new Promise((resolve, reject) => {
@@ -141,6 +142,24 @@ class api {
     getListAll(data) {
         return new Promise((resolve, reject) => {
             get("/open/blade-content/contentdetail/pages", data).then(res => {
+                res.data.records.forEach(item => {
+                    if (!item.summary) {
+                        if (item.cont) {
+                            let cont = item.cont.replace(/<\/?[^>]*>/g, "")
+
+                            item.summary = cont.replace(/&nbsp;/ig, "").slice(0, 50) + '...';
+                        }
+
+                    }
+                })
+                resolve(res.data)
+            });
+        });
+    }
+    //获取最新栏目
+    getLatestMenu(data) {
+        return new Promise((resolve, reject) => {
+            get("/open/blade-content/contentdetail/newCat", data).then(res => {
                 res.data.records.forEach(item => {
                     if (!item.summary) {
                         if (item.cont) {

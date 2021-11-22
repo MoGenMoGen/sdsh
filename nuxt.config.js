@@ -1,7 +1,7 @@
 
 export default {
   mode: 'universal',
-  router:{
+  router: {
     base: '/sdsh',
   },
   /*
@@ -14,15 +14,15 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'keywords', content: '山东商会' },
       { hid: 'description', name: 'description', content: '山东商会' },
-      {name:"renderer", content:"webkit"},
-      {name:"baidu-site-verification", content:"rL56RVqYF3"}
+      { name: "renderer", content: "webkit" },
+      { name: "baidu-site-verification", content: "rL56RVqYF3" }
     ],
     link: [
       // { rel: 'icon', type: 'image/x-icon', href: '/zjfy/favicon.ico' }
     ],
     script: [
-      { src: 'https://ta.8531.cn/c/js/ta.js?mpid=143',id:'_trs_ta_js',async:'async',defer:'defer' },
-      { src: 'https://v1.cnzz.com/z_stat.php?id=1278902410&web_id=1278902410',async:'async',defer:'defer' }, //友盟统计
+      { src: 'https://ta.8531.cn/c/js/ta.js?mpid=143', id: '_trs_ta_js', async: 'async', defer: 'defer' },
+      { src: 'https://v1.cnzz.com/z_stat.php?id=1278902410&web_id=1278902410', async: 'async', defer: 'defer' }, //友盟统计
     ],
   },
   /*
@@ -33,8 +33,8 @@ export default {
   ** Global CSS
   */
   css: [
-    {src:'element-ui/lib/theme-chalk/index.css'},
-    {src:'swiper/dist/css/swiper.css'}
+    { src: 'element-ui/lib/theme-chalk/index.css' },
+    { src: 'swiper/dist/css/swiper.css' }
   ],
 
   /*
@@ -43,11 +43,11 @@ export default {
   plugins: [
     { src: '@/assets/js/wconfig.js', mode: 'client' },
     { src: '@/plugins/swiper.js', mode: 'client' },
-    { src: '@/assets/js/asyncApi.js'},
-    { src: '@/plugins/vueqr.js', mode: 'client'},
-    { src: '@/plugins/poly.js'},
-    { src: '@/plugins/element.js'},
-    { src: '@/plugins/axios.js',ssr: true}
+    { src: '@/assets/js/asyncApi.js' },
+    { src: '@/plugins/vueqr.js', mode: 'client' },
+    { src: '@/plugins/poly.js' },
+    { src: '@/plugins/element.js' },
+    { src: '@/plugins/axios.js', ssr: true }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -69,6 +69,7 @@ export default {
 
   proxy: {
     // http://lwkacgr.nat.ipyingshe.com 
+    // http://sdsh.jinkworld.com
     '/open': {
       target: 'http://sdsh.jinkworld.com', // 目标接口域名
       pathRewrite: {
@@ -81,7 +82,7 @@ export default {
   performance: {
     maxEntrypointSize: 1000000,
     maxAssetSize: 200000,
-    assetFilter: function(assetFilename) {
+    assetFilter: function (assetFilename) {
       return assetFilename.endsWith('.js');
     }
   },
@@ -92,11 +93,11 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    extend(config, ctx) {
     },
     // 开启打包分析
     analyze: false,
-    assetFilter: function(assetFilename) {
+    assetFilter: function (assetFilename) {
       return assetFilename.endsWith('.js');
     },
 

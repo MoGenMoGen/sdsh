@@ -1,5 +1,8 @@
 <template>
   <div id="home" :style="{ width: bWidth + 'px' }">
+    <div class="header-content" :style="{ width: bWidth + 'px' }">
+      <navTab id=""></navTab>
+    </div>
     <div class="main" :style="{ width: width + 'px' }">
       <el-carousel style="height: 350px; margin: 15px 0">
         <el-carousel-item v-for="(item, index) in banner" :key="index">
@@ -47,6 +50,7 @@
 <script type="text/ecmascript-6">
 import SocityRaw from "@/components/SocityRaw";
 import homeNewList from "@/components/homeNewList";
+import navTab from "@/components/navTab.vue";
 
 export default {
   head: {
@@ -85,16 +89,22 @@ export default {
   components: {
     SocityRaw,
     homeNewList,
+    navTab,
   },
   async mounted() {
     // return
     this.getWidth();
+    window.onresize = () => {
+      return (() => {
+        this.getWidth();
+      })();
+    };
     //轮播图
     this.api.getAdr("ADPOS.001", 2).then((res) => {
       this.banner = res;
     });
     //友情链接
-    this.friendLinks=await this.api.getMedia();
+    this.friendLinks = await this.api.getMedia();
   },
   watch: {},
   methods: {
@@ -192,7 +202,10 @@ export default {
 @import url("../assets/css/init.less");
 #home {
   margin: 0 auto;
-
+  .header-content {
+    width: 100%;
+    background: #fff;
+  }
   .main {
     .news_info {
       margin: 15px 0;

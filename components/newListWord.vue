@@ -107,7 +107,7 @@ export default {
         current: this.pageNo,
         size: this.pageSize,
       };
-      let data = await this.api.getListAll(param);
+      let data = await this.api.山东商会(param);
       data.records.forEach(item => {
         if(item.reletm){
           let year = new Date(item.reletm).getFullYear()
@@ -123,11 +123,11 @@ export default {
       async getList() {
       // console.log('getList')
           let param = {
-              cids:this.id,
+              cid:this.id,
               current:this.pageNo,
               size:this.pageSize
           }
-          let data = await this.api.getListAll(param);
+          let data = await this.api.山东商会(param);
           data.records.forEach(item => {
               item.releTm = item.releTm ? item.releTm.split(" ")[0] : "";
           });

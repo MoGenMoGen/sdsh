@@ -5,7 +5,7 @@
     :class="{ topic: ifTopic }"
   >
     <div id="header" :style="{ width: bWidth + 'px' }" v-show="!declare">
-      <div class="header-top">
+      <div class="header-top" :style="{ width: width + 'px' }">
         <img
           @click="tohome"
           src="@/img/logo.png"
@@ -13,11 +13,12 @@
           alt=""
         />
         <div class="searchbox">
-          <el-input></el-input>
+          <el-input v-model="key" @keyup.enter.native="goSearch" clearable></el-input>
           <img
             src="@/img/search-icon.png"
             style="width: 40px; height: 40px; object-fit: fill"
             alt=""
+            @click="goSearch"
           />
         </div>
 
@@ -27,9 +28,9 @@
           </p>
         </div> -->
       </div>
-      <div class="header-content" :style="{ width: width + 'px' }">
+      <!-- <div class="header-content" :style="{ width: width + 'px' }"> -->
         <!-- <div class="cont-wrap" :style="{ width: width + 'px' }"> -->
-        <ul>
+        <!-- <ul>
           <li
             @click="toPage(item, index)"
             v-for="(item, index) in navList"
@@ -38,15 +39,15 @@
             style="text-align: center"
           >
             {{ item.title }}
-            <!-- <img :src="line" v-if="index < navList.length - 1" /> -->
           </li>
-        </ul>
+        </ul> -->
+
         <!-- <div class="search">
             <input type="text" v-model="key" @keyup.enter="goSearch" />
             <button @click="goSearch">平台搜索</button>
           </div> -->
         <!-- </div> -->
-      </div>
+      <!-- </div> -->
     </div>
     <div class="content-link" :class="{ contentDeclar: declare }">
       <nuxt :width="width" :bWidth="bWidth" />
@@ -321,13 +322,14 @@ body {
     // padding: 0 221px;
     // box-sizing: border-box;
     .header-top {
-      width: 100%;
+      // width: 100%;
       box-sizing: border-box;
-      padding: 23px 221px;
+      padding: 23px 0px;
+      margin:0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #e6e7eb;
+      // border-bottom: 1px solid #e6e7eb;
       .searchbox {
         display: flex;
         .el-input {

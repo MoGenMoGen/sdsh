@@ -33,11 +33,7 @@
               @getDetail="getSearchDetail"
             ></list2>
             <!-- 领导班子 -->
-            <list3
-              v-else-if="nm == '领导班子'"
-              @getDetail="getDetail"
-              :leaderTitle="leaderTitle"
-            ></list3>
+            <list3 v-else-if="nm == '领导班子'" @getDetail="getDetail"></list3>
             <!-- 商会介绍 -->
             <div
               v-else-if="nm == '商会介绍'"
@@ -76,12 +72,7 @@
       </div>
 
       <div class="right">
-        <latestList
-          :nm="nm"
-          @getIntroItem="getIntroItem"
-          @getDetail="getSearchDetail"
-          @handleLeader="handleLeader"
-        ></latestList>
+        <latestList :nm="nm" @getIntroItem="getIntroItem" @getDetail="getSearchDetail"></latestList>
         <!-- <right-new @getDetail="getDetail" :newsShow="newsShow"></right-new> -->
       </div>
     </div>
@@ -161,7 +152,6 @@ export default {
       showType: 0, //列表展现方式(1.图文 2.全文字 3.视频)
       intro: [], //商会介绍
       introItem: "",
-      leaderTitle: "", //领导班子职称
     };
   },
   created() {},
@@ -177,8 +167,8 @@ export default {
     this.getInfo();
     this.getName();
     //商会介绍
-    this.intro = await this.api.getListAll({
-      cids: "1458345268556877826",
+    this.intro = await this.api.山东商会({
+      cid: "1458345268556877826",
       current: 1,
       size: 10,
     });
@@ -193,7 +183,7 @@ export default {
     },
   },
   async asyncData(context) {
-    return;
+    return
     if (process.client) {
       return;
     }
@@ -206,7 +196,7 @@ export default {
     let newList = [];
     let detailId = context.query.detailId ? context.query.detailId : "";
 
-    rightNewList = await context.app.api.getListAll({
+    rightNewList = await context.app.api.山东商会({
       current: 1,
       size: 10,
     });
@@ -226,7 +216,7 @@ export default {
         current: context.query.pageNo ? context.query.pageNo : 1,
         pageSize: 20,
       };
-      newList = await context.app.api.getListAll(param);
+      newList = await context.app.api.山东商会(param);
       newList.records.forEach((item) => {
         urlArr.push(
           context.app.hostUrl + "/zjfzol/newList?detailId=" + item.id
@@ -269,19 +259,11 @@ export default {
     navTab,
   },
   watch: {
-    async $route(to) {
+    $route(to) {
       console.log("路由改变");
       this.getWidth();
       this.getInfo();
       this.getName();
-      //商会介绍
-      //商会介绍
-      this.intro = await this.api.getListAll({
-        cids: "1458345268556877826",
-        current: 1,
-        size: 10,
-      });
-      this.intro = this.intro.records;
     },
   },
   methods: {
@@ -712,10 +694,6 @@ export default {
           }
         );
       }
-    },
-    handleLeader(nm) {
-      console.log('父级右侧',nm);
-      this.leaderTitle = nm;
     },
   },
 };

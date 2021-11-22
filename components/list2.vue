@@ -43,6 +43,10 @@ export default {
       default: "",
       type: String,
     },
+    keyWord:{
+       default: "",
+      type: String,
+    }
   },
   methods: {
     handleCurrentChange(val) {
@@ -54,6 +58,7 @@ export default {
         cids: this.id,
         current: this.pageNo,
         size: this.pageSize,
+        cont:this.keyWord
       });
 
       this.List = data.records;
@@ -72,6 +77,10 @@ export default {
       this.pageNo = 1;
       this.getList();
     },
+    keyWord(){
+       this.pageNo = 1;
+      this.getList();
+    }
   },
 };
 </script>

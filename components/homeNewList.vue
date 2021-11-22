@@ -5,7 +5,12 @@
       <span class="btn_more" @click="toPage">更多></span>
     </div>
     <div class="content_box">
-      <div class="item" v-for="(item, index) in list" :key="index" @click="toDetail(item)">
+      <div
+        class="item"
+        v-for="(item, index) in list"
+        :key="index"
+        @click="toDetail(item)"
+      >
         <div class="new_title">{{ item.title }}</div>
         <div class="time">{{ item.releTm }}</div>
       </div>
@@ -78,6 +83,8 @@ export default {
         query: {
           detailId: info.id,
           time: new Date().getTime(),
+          nm: this.title,
+          showType: this.showType,
         },
       });
     },

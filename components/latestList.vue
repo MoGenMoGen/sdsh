@@ -6,6 +6,7 @@
         class="intro_box"
         v-for="(item1, index1) in leaderList"
         :key="index1"
+        @click="handleLeader(item1.title)"
       >
         {{ item1.title }}
       </div>
@@ -15,13 +16,23 @@
         <div class="text">最新栏目</div>
       </div>
       <div class="content_list">
-        <div class="item" v-for="(item1, index1) in list1" :key="index1">
+        <div
+          class="item"
+          v-for="(item1, index1) in list1"
+          :key="index1"
+          @click="toDetail(item1)"
+        >
           {{ item1.title }}
         </div>
       </div>
     </div>
     <div class="sh_intro">
-      <div class="intro_box" v-for="(item2, index2) in introList" :key="index2">
+      <div
+        class="intro_box"
+        v-for="(item2, index2) in introList"
+        :key="index2"
+        @click="handleIntro(item2.id)"
+      >
         {{ item2.title }}
       </div>
     </div>
@@ -30,7 +41,12 @@
         <div class="text">最新通知</div>
       </div>
       <div class="content_list">
-        <div class="item" v-for="(item2, index2) in list2" :key="index2">
+        <div
+          class="item"
+          v-for="(item2, index2) in list2"
+          :key="index2"
+          @click="toDetail(item2)"
+        >
           {{ item2.title }}
         </div>
       </div>
@@ -42,46 +58,8 @@
 export default {
   data() {
     return {
-      list1: [
-        {
-          title: "2021年第四季度轮值会长2021年第四季度轮值会长",
-        },
-        {
-          title: "威龙夜，鲁商情”山东商会威龙夜，鲁商情”山东商会",
-        },
-        {
-          title: "我会参加中共宁波市工商联直威龙夜，鲁商情”山东商会",
-        },
-        {
-          title: "2021年第四季度轮值会长威龙夜，鲁商情”山东商会",
-        },
-        {
-          title: "威龙夜，鲁商情”山东商会威龙夜，鲁商情”山东商会",
-        },
-        {
-          title: "我会参加中共宁波市工商联直威龙夜，鲁商情”山东商会",
-        },
-      ],
-      list2: [
-        {
-          title: "2021年第四季度轮值会长威龙夜，鲁商情”山东商会",
-        },
-        {
-          title: "威龙夜，鲁商情”山东商会威龙夜，鲁商情”山东商会",
-        },
-        {
-          title: "我会参加中共宁波市工商联直威龙夜，鲁商情”山东商会",
-        },
-        {
-          title: "2021年第四季度轮值会长威龙夜，鲁商情”山东商会",
-        },
-        {
-          title: "威龙夜，鲁商情”山东商会威龙夜，鲁商情”山东商会",
-        },
-        {
-          title: "我会参加中共宁波市工商联直威龙夜，鲁商情”山东商会",
-        },
-      ],
+      list1: [],
+      list2: [],
       introList: [],
       leaderList: [],
     };
@@ -95,7 +73,7 @@ export default {
   methods: {
     //获取领导班子和商会介绍子列表
     async getSonList() {
-      console.log('nm',this.nm);
+      console.log("nm", this.nm);
       //领导班子
       if (this.nm == "领导班子") {
         this.leaderList = await this.api.getMenuNav({
@@ -117,14 +95,43 @@ export default {
       // console.log('introList',this.introList);
       // console.log('leaderList',this.leaderList);
     },
+    handleIntro(id) {
+      console.log("商会item", id);
+      this.$emit("getIntroItem", id);
+    },
+    handleLeader(nm) {
+      console.log('右侧栏目',nm);
+      this.$emit("handleLeader", nm);
+    },
+    //获取最新栏目和最新通知
+    async getList() {
+      //最新栏目
+      let data1 = await this.api.getLatestMenu({
+        current: 1,
+        size: 6,
+      });
+      this.list1 = data1.records;
+      //最新通知
+      let data2 = await this.api.getListAll({
+        cids: "1458444436709330945",
+        current: 1,
+        size: 6,
+      });
+      this.list2 = data2.records;
+    },
+    toDetail(item) {
+      this.$emit("getDetail", item);
+    },
   },
   async mounted() {
     // console.log('右侧mounted');
     this.getSonList();
+    this.getList();
   },
   watch: {
     nm(newV, oldV) {
       this.getSonList();
+      this.getList();
     },
   },
 };
@@ -147,6 +154,10 @@ export default {
       padding: 10px 0;
       text-align: center;
       margin-bottom: 20px;
+      cursor: pointer;
+    }
+    .intro_box:hover {
+      color: red;
     }
   }
   .list {
