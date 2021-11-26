@@ -37,13 +37,13 @@ export default {
     };
   },
   props: {
-    leaderTitle: {
+    leaderId: {
       default: "",
       type: String,
     },
   },
   watch: {
-    leaderTitle() {
+    leaderId() {
       this.pageNo = 1;
       this.getList();
     },
@@ -54,11 +54,10 @@ export default {
       this.getList();
     },
     async getList() {
-      let data = await this.api.getListAll({
-        cids: "1458383124973244417",
+      let data = await this.api.getLeaderList({
+        cid: this.leaderId,
         current: this.pageNo,
         size: this.pageSize,
-        cont: this.leaderTitle,
       });
       this.List = data.records;
       this.total = data.total;
@@ -69,9 +68,9 @@ export default {
     },
   },
   mounted() {
-    console.log('mountedsssssss');
-    this.$parent.leaderTitle = "";
-    console.log(11111,this.leaderTitle);
+    console.log("mountedsssssss");
+    this.$parent.leaderId = "";
+    console.log(11111, this.leaderId);
     this.getList();
   },
 };

@@ -6,7 +6,7 @@
         class="intro_box"
         v-for="(item1, index1) in leaderList"
         :key="index1"
-        @click="handleLeader(item1.title)"
+        @click="handleLeader(item1)"
       >
         {{ item1.title }}
       </div>
@@ -31,7 +31,7 @@
         class="intro_box"
         v-for="(item2, index2) in introList"
         :key="index2"
-        @click="handleIntro(item2.id)"
+        @click="handleIntro(item2)"
       >
         {{ item2.title }}
       </div>
@@ -95,13 +95,13 @@ export default {
       // console.log('introList',this.introList);
       // console.log('leaderList',this.leaderList);
     },
-    handleIntro(id) {
-      console.log("商会item", id);
-      this.$emit("getIntroItem", id);
+    handleIntro(item) {
+      console.log("商会item", item);
+      this.$emit("getIntroItem", item);
     },
-    handleLeader(nm) {
-      console.log('右侧栏目',nm);
-      this.$emit("handleLeader", nm);
+    handleLeader(item) {
+      console.log('右侧栏目',item);
+      this.$emit("handleLeader", item);
     },
     //获取最新栏目和最新通知
     async getList() {

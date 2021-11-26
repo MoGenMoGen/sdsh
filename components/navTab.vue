@@ -39,6 +39,7 @@ export default {
   methods: {
     async getNav() {
       let data = await this.api.getMenuNav({ parentId: 0 });
+      console.log('navlist',data);
       data.forEach((item) => {
         if (item.showPos.indexOf("1") > -1) {
           this.navList.push(item);

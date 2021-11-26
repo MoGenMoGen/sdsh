@@ -90,12 +90,22 @@ export default {
     },
   },
   async mounted() {
-    let data = await this.api.getListAll({
-      cids: this.id,
-      current: 1,
-      size: 6,
-    });
-    this.list = data.records;
+    //领导班子接口不一样
+    if (this.type == 2) {
+      let data = await this.api.getLeaderList({
+        cids: this.id,
+        current: 1,
+        size: 6,
+      });
+      this.list = data.records;
+    } else {
+      let data = await this.api.getListAll({
+        cids: this.id,
+        current: 1,
+        size: 6,
+      });
+      this.list = data.records;
+    }
   },
 };
 </script>

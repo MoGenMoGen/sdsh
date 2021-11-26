@@ -13,14 +13,18 @@
               v-show="position.length > 0 && id != '4688713356973056'"
               :key="index"
             >
-              <span @click="toList(item)">{{ item.nm }}</span
-              >>
+              <span
+                @click="toList(item, index)"
+                :style="{ color: index > 0 ? '#0c76b3' : '' }"
+                >{{ item.nm }}</span
+              ><span v-show="index == 0">></span>
             </p>
-            <span @click="toList(currentMenu)" style="color: #0c76b3">{{
+            <span style="color: #0c76b3">{{ currentMenu.nm }}</span>
+            <!-- <span @click="toList(currentMenu)" style="color: #0c76b3">22{{
               currentMenu.nm
-            }}</span>
-            <span v-show="DYaccout"> > {{ DYaccout }}</span>
-            <span v-show="keyWord"> {{ keyWord }}</span>
+            }}</span> -->
+            <span v-show="DYaccout"> >{{ DYaccout }}</span>
+            <span v-show="keyWord && !detailId" style="color: #0c76b3"> {{ keyWord }}</span>
           </div>
           <div class="listMain" v-if="!detailId">
             <!-- 纯文本 -->
@@ -36,7 +40,7 @@
             <list3
               v-else-if="nm == '领导班子'"
               @getDetail="getDetail"
-              :leaderTitle="leaderTitle"
+              :leaderId="leaderId"
             ></list3>
             <!-- 商会介绍 -->
             <div
@@ -82,7 +86,6 @@
           @getDetail="getSearchDetail"
           @handleLeader="handleLeader"
         ></latestList>
-        <!-- <right-new @getDetail="getDetail" :newsShow="newsShow"></right-new> -->
       </div>
     </div>
   </div>
@@ -130,7 +133,6 @@ export default {
   },
   data() {
     return {
-      newsShow: true, //右边的最新新闻是否显示
       newsNoShowArr: "4536030838313984", //右边不显示最新新闻的栏目
       width: 0,
       bWidth: 0,
@@ -161,7 +163,7 @@ export default {
       showType: 0, //列表展现方式(1.图文 2.全文字 3.视频)
       intro: [], //商会介绍
       introItem: "",
-      leaderTitle: "", //领导班子职称
+      leaderId: "", //领导班子职称
     };
   },
   created() {},
@@ -183,6 +185,24 @@ export default {
       size: 10,
     });
     this.intro = this.intro.records;
+    let index = 0;
+    if (this.$route.query.sId) {
+      index = this.intro.findIndex((item) => item.cid == this.$route.query.sId);
+    } else {
+      index = this.intro.findIndex((item) => item.cid == "1458357934457376770");
+    }
+    if (index >= 0) {
+      this.introItem = this.intro[index];
+      this.introItem.cont = this.introItem.cont.replace(
+        /<img[^>]*>/gi,
+        function (match, capture) {
+          return match.replace(
+            /(<img[^>]*)(\/?>)/gi,
+            "$1style='max-width:100%;height:auto;' $2"
+          );
+        }
+      );
+    }
   },
 
   computed: {
@@ -275,13 +295,34 @@ export default {
       this.getInfo();
       this.getName();
       //商会介绍
-      //商会介绍
       this.intro = await this.api.getListAll({
         cids: "1458345268556877826",
         current: 1,
         size: 10,
       });
       this.intro = this.intro.records;
+      let index = 0;
+      if (this.$route.query.sId) {
+        index = this.intro.findIndex(
+          (item) => item.cid == this.$route.query.sId
+        );
+      } else {
+        index = this.intro.findIndex(
+          (item) => item.cid == "1458357934457376770"
+        );
+      }
+      if (index >= 0) {
+        this.introItem = this.intro[index];
+        this.introItem.cont = this.introItem.cont.replace(
+          /<img[^>]*>/gi,
+          function (match, capture) {
+            return match.replace(
+              /(<img[^>]*)(\/?>)/gi,
+              "$1style='max-width:100%;height:auto;' $2"
+            );
+          }
+        );
+      }
     },
   },
   methods: {
@@ -327,24 +368,6 @@ export default {
           }
         );
         this.title = "山东商会 - " + this.info.title;
-        if (!this.$refs.detail) {
-          var myTimer = setInterval(() => {
-            if (this.$refs.detail) {
-              clearInterval(myTimer);
-
-              this.$refs.detail.setInfo(JSON.stringify(this.info));
-            }
-          }, 100);
-        } else {
-          this.$refs.detail.setInfo(JSON.stringify(this.info));
-        }
-
-        if (this.info.newsSrc.indexOf("来源") == "-1") {
-          this.info.newsSrc = "来源：" + this.info.newsSrc;
-        }
-        if (this.info.editor.indexOf("编辑") == "-1") {
-          this.info.editor = "(责任编辑：" + this.info.editor + ")";
-        }
         this.currentMenu = {
           nm: "详情",
         };
@@ -354,51 +377,9 @@ export default {
           this.position.push({
             id: item,
             nm: itemNm[index],
+            showType: this.$route.query.showType,
           });
         });
-        // this.position.push({
-        //   nm:this.info.catNm,
-        //   id:this.info.catId,
-        // })
-        // if(this.info.pCatNm){ //上级栏目
-        //   this.position[0]={
-        //     nm:this.info.catNm,
-        //     pId:this.info.pCatId,
-        //     pNm:this.info.pCatNm,
-        //     id:this.info.catId
-        //   }
-        //   this.position.unshift({
-        //     nm:this.info.pCatNm,
-        //     id:this.info.pCatId,
-        //   })
-        // }
-        // if(this.info.ppCatNm){ //上上级栏目
-        //     this.position[0]={
-        //       nm:this.info.pCatNm,
-        //       id:this.info.pCatId,
-        //       pId:this.info.ppCatId,
-        //       pNm:this.info.ppCatNm,
-        //     }
-        //   this.position[1]={
-        //     ppNm:this.info.ppCatNm,
-        //     ppId:this.info.ppCatId,
-        //     pId:this.info.pCatId,
-        //     pNm:this.info.pCatNm,
-        //     nm:this.info.catNm,
-        //     id:this.info.catId,
-        //   }
-        //   this.position.unshift({
-        //     nm:this.info.ppCatNm,
-        //     id:this.info.ppCatId,
-        //   })
-        // }
-
-        if (this.newsNoShowArr.indexOf(this.position[0].id) > -1) {
-          this.newsShow = false;
-        } else {
-          this.newsShow = true;
-        }
-        // this.currentMenu = this.position.pop()
         if (this.position.length > 0) {
           this.id = this.position[0].id; //按栏目仅有两级写代码
           this.getMenu();
@@ -412,6 +393,7 @@ export default {
         this.position.push({
           id: this.$route.query.id,
           nm: this.$route.query.nm,
+          showType: this.$route.query.showType,
         });
         this.title = "山东商会 - " + this.$route.query.nm;
       }
@@ -421,22 +403,6 @@ export default {
           id: this.$route.query.sId,
         });
         this.title += " - " + this.$route.query.sNm;
-        // this.id = this.$route.query.sId;
-
-        // if(this.$route.query.ssId){
-        //     this.position.push({
-        //         nm:this.$route.query.sNm,
-        //         id:this.$route.query.sId,
-        //         pNm: this.$route.query.nm,
-        //         pId: this.$route.query.id
-        //     })
-        //     this.id = this.$route.query.sId;
-        // }
-        if (this.newsNoShowArr.indexOf(this.position[0].id) > -1) {
-          this.newsShow = false;
-        } else {
-          this.newsShow = true;
-        }
       }
       this.keyWord = this.$route.query.key ? this.$route.query.key : "";
       this.ifSearch = this.keyWord ? true : false;
@@ -445,46 +411,23 @@ export default {
         this.currentMenu = {};
         this.menuList = [];
       }
-      // this.id = this.$route.query.id ? this.$route.query.id : "";
       if (this.id) {
         this.getMenu();
       }
     },
-    // //显示账号下的抖音列表
-    // setDYopenId(item){
-    //   this.DYopenId = item.openId
-    //   this.DYaccout = item.nickname
-    // },
     async getMenu() {
-      // console.log(this.id)
-      if (this.id == "4688713356973056") {
-        //专题左边导航不显示
-        this.currentMenu = {
-          nm: this.$route.query.nm,
-        };
-        return;
-      }
       let data = await this.api.getMenuNav({ parentId: this.id });
-
       this.menuList = data;
-      // console.log('menuList')
-      // console.log(this.menuList)
       if (this.menuList.length > 0) {
         //有下级栏目
         this.currentMenu.id = this.menuList[0].id;
-        // this.position.push({
-        //   nm:this.menuList[0].title,
-        //   id:this.menuList[0].id,
-        // })
       } else {
         //没有下级栏目
         if (this.$route.query.detailId) {
-          // console.log('222222222222')
           return;
         }
         this.currentMenu.id = this.id;
         this.currentMenu.nm = this.$route.query.nm;
-        // console.log(this.currentMenu)
       }
       if (this.$route.query.sId) {
         //有指定的二级栏目id
@@ -513,8 +456,10 @@ export default {
       } else if (this.$route.query.detailId) {
         //详情
       } else {
-        if (this.menuList.length > 0) {
+        //对领导班子的特殊处理
+        if (this.menuList.length > 0 && this.id != "1458383124973244417") {
           this.currentMenu = JSON.parse(JSON.stringify(this.menuList[0]));
+          // console.log('currentmudiklghdfklghfeklgjiol',this.currentMenu);
           this.currentMenu.nm = this.currentMenu.title;
           this.currentMenu.pId = this.position[0].id;
           this.currentMenu.pNm = this.position[0].nm;
@@ -523,20 +468,10 @@ export default {
         } else {
           this.position = [];
           this.currentMenu.id = this.id;
-          // let qry = this.query.new();
-          // this.query.toW(qry, "pid", 0, "EQ");
-          // this.query.toO(qry, "sort", "asc");
-          // let data = await this.api.getMenuNav(
-          //   encodeURIComponent(this.query.toJsonStr(qry))
-          // );
-          // let info = data.find(item=>{
-          //   return item.id == this.id
-          // })
+
           this.currentMenu.nm = this.$route.query.nm;
         }
       }
-      // console.log(11111, this.currentMenu);
-      // console.log(11111, this.position);
     },
     //更换url,页面跳转
     async toMenu(item) {
@@ -653,36 +588,44 @@ export default {
       //     this.detailId = "";
       // }
     },
-    toList(item) {
+    toList(item, index) {
       console.log("item", item);
       let param = {
         nm: item.nm,
         id: item.id,
+        showType: item.showType,
       };
-      if (item.ppId) {
-        //有三层
-        param = {
-          nm: item.ppNm,
-          id: item.ppId,
-          sNm: item.pNm,
-          sId: item.pId,
-          ssId: item.id,
-          time: new Date().getTime(),
-        };
-      } else if (item.pId) {
-        //二层
-        param = {
-          nm: item.pNm,
-          id: item.pId,
-          sNm: item.nm,
-          sId: item.id,
-          time: new Date().getTime(),
-        };
+      if (index > 0) {
+      } else {
+        if (item.ppId) {
+          //有三层
+          param = {
+            nm: item.ppNm,
+            id: item.ppId,
+            sNm: item.pNm,
+            sId: item.pId,
+            ssId: item.id,
+            time: new Date().getTime(),
+          };
+        } else if (item.pId) {
+          //二层
+          param = {
+            nm: item.pNm,
+            id: item.pId,
+            sNm: item.nm,
+            sId: item.id,
+            time: new Date().getTime(),
+          };
+        }
+        //领导班子特殊处理
+        if (item.id == "1458383124973244417") {
+          this.leaderId = "";
+        }
+        this.$router.push({
+          path: "/newList",
+          query: param,
+        });
       }
-      this.$router.push({
-        path: "/newList",
-        query: param,
-      });
     },
     //获取传给右侧栏目组件的名字
     getName() {
@@ -697,25 +640,44 @@ export default {
         this.nm = "";
       }
     },
-    getIntroItem(id) {
-      //机构设置
-      let index = this.intro.findIndex((item) => item.cid == id);
+    getIntroItem(info) {
+      let index = this.intro.findIndex((item) => item.cid == info.id);
       if (index >= 0) {
-        this.introItem = this.intro[index];
-        this.introItem.cont = this.introItem.cont.replace(
-          /<img[^>]*>/gi,
-          function (match, capture) {
-            return match.replace(
-              /(<img[^>]*)(\/?>)/gi,
-              "$1style='max-width:100%;height:auto;' $2"
-            );
-          }
-        );
+        // this.introItem = this.intro[index];
+        // this.introItem.cont = this.introItem.cont.replace(
+        //   /<img[^>]*>/gi,
+        //   function (match, capture) {
+        //     return match.replace(
+        //       /(<img[^>]*)(\/?>)/gi,
+        //       "$1style='max-width:100%;height:auto;' $2"
+        //     );
+        //   }
+        // );
+        this.$router.push({
+          path: "/newList",
+          query: {
+            id: this.$route.query.id,
+            nm: this.$route.query.nm,
+            showType: this.$route.query.showType,
+            sNm: info.title,
+            sId: info.id,
+          },
+        });
       }
     },
-    handleLeader(nm) {
-      console.log('父级右侧',nm);
-      this.leaderTitle = nm;
+    handleLeader(info) {
+      console.log("父级右侧", info);
+      this.leaderId = info.id;
+      this.$router.push({
+        path: "/newList",
+        query: {
+          id: this.$route.query.id,
+          nm: this.$route.query.nm,
+          showType: this.$route.query.showType,
+          sNm: info.title,
+          sId: info.id,
+        },
+      });
     },
   },
 };

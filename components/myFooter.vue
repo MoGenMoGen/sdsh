@@ -19,7 +19,12 @@
       <p>举办单位： 宁波市山东商会 业务联系：0574—87091616</p>
       <p>商会地址：宁波市翔云北路99号9号楼10层1001室</p>
       <p>宁波市山东商会会版权所有</p>
-      <p>TCP/IP备案： 浙ICP备17039227号-1</p>
+
+      <p>
+        <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer"
+          >TCP/IP备案： 浙ICP备17039227号-1
+        </a>
+      </p>
     </div>
   </div>
 </template>
@@ -64,6 +69,7 @@ export default {
 
 <style lang="less" scoped>
 @import url("../assets/css/init.less");
+@import url("../assets/css/config.less");
 #cnzz {
   position: absolute;
   left: 50%;
@@ -86,7 +92,7 @@ export default {
   min-width: -moz-max-content;
   // background: url("./img/底部背景.png") no-repeat top center;
   // background-size: cover;
-  background: #0C76B3;
+  background: #0c76b3;
   border-top: 1px solid #ddd;
   color: #666;
   .footer-wrap {
@@ -102,7 +108,7 @@ export default {
       text-align: center;
       line-height: 30px;
       font-size: 16px;
-      color: #FFFFFF;
+      color: #ffffff;
       span {
         padding: 0 10px;
       }

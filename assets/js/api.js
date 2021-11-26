@@ -174,6 +174,14 @@ class api {
             });
         });
     }
+    //获取领导班子列表
+    getLeaderList(data){
+        return new Promise((resolve, reject) => {
+            get("/open/blade-content/contentdetail/leader", data).then(res => {
+                resolve(res.data)
+            });
+        });
+    }
 
     //获取新闻详情
     getDetail(id) {

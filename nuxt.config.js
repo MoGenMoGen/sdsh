@@ -2,7 +2,7 @@
 export default {
   mode: 'universal',
   router: {
-    base: '/sdsh',
+    base: '/web',
   },
   /*
   ** Headers of the page
