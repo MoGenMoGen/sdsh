@@ -1,7 +1,7 @@
 <template>
   <div id="home" :style="{ width: bWidth + 'px' }">
-    <div class="header-content" :style="{ width: bWidth + 'px' }">
-      <navTab id=""></navTab>
+    <div class="header-content">
+      <navTab id=""></navTab>    
     </div>
     <div class="main" :style="{ width: width + 'px' }">
       <el-carousel style="height: 350px; margin: 15px 0">
@@ -115,13 +115,15 @@ export default {
         this.bWidth = 1000;
       }
       if (width >= 1000 && width <= 1200) {
-        this.width = width;
+        this.width = 1000;
         this.bWidth = width;
       }
       if (width > 1200) {
         this.width = 1200;
         this.bWidth = width;
       }
+      console.log('首页width',this.width,this.bWidth);
+
     },
     async getList(data) {
       return await this.api.getListAll(data);

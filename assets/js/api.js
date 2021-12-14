@@ -4,11 +4,11 @@
 import { MessageBox } from 'element-ui'
 // let hostUrl = "http://127.0.0.1"
 // let hostUrl = "http://pj.xiaomy.net"
-let hostUrl = "http://sdsh.jinkworld.com"
+let hostUrl = "http://www.nbssdsh.com"
 if (process.client) {
     hostUrl = ''
 } else {
-    hostUrl = 'http://sdsh.jinkworld.com'
+    hostUrl = 'http://www.nbssdsh.com'
     // hostUrl = 'http://192.168.0.18/'
 }
 // console.log(process.client)

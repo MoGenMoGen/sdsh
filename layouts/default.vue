@@ -13,7 +13,11 @@
           alt=""
         />
         <div class="searchbox">
-          <el-input v-model="key" @keyup.enter.native="goSearch" clearable></el-input>
+          <el-input
+            v-model="key"
+            @keyup.enter.native="goSearch"
+            clearable
+          ></el-input>
           <img
             src="@/img/search-icon.png"
             style="width: 40px; height: 40px; object-fit: fill"
@@ -29,8 +33,8 @@
         </div> -->
       </div>
       <!-- <div class="header-content" :style="{ width: width + 'px' }"> -->
-        <!-- <div class="cont-wrap" :style="{ width: width + 'px' }"> -->
-        <!-- <ul>
+      <!-- <div class="cont-wrap" :style="{ width: width + 'px' }"> -->
+      <!-- <ul>
           <li
             @click="toPage(item, index)"
             v-for="(item, index) in navList"
@@ -42,15 +46,16 @@
           </li>
         </ul> -->
 
-        <!-- <div class="search">
+      <!-- <div class="search">
             <input type="text" v-model="key" @keyup.enter="goSearch" />
             <button @click="goSearch">平台搜索</button>
           </div> -->
-        <!-- </div> -->
+      <!-- </div> -->
       <!-- </div> -->
     </div>
     <div class="content-link" :class="{ contentDeclar: declare }">
-      <nuxt :width="width" :bWidth="bWidth" />
+      <!-- <nuxt :width="bWidth" :bWidth="bWidth" /> -->
+      <nuxt/>
     </div>
     <myFooter
       :width="width"
@@ -69,7 +74,7 @@ import line from "./img/line.png";
 export default {
   data() {
     return {
-      width: 1000,
+      width: 0,
       bWidth: 0,
       line,
       ddCode: "",
@@ -106,10 +111,10 @@ export default {
     // document.body.appendChild(script)
     // console.log(document.body)
     this.changeRoute();
-    this.$nextTick(() => {
+    // this.$nextTick(() => {
       this.getWidth();
       // this.ifPC();
-    });
+    // });
     window.onresize = () => {
       return (() => {
         this.getWidth();
@@ -175,7 +180,7 @@ export default {
         this.bWidth = 1000;
       }
       if (width >= 1000 && width <= 1200) {
-        this.width = width;
+        this.width = 1000;
         this.bWidth = width;
       }
       if (width > 1200) {
@@ -273,7 +278,12 @@ export default {
   },
 };
 </script>
-<style lang="less">
+
+<style lang="less" scoped>
+.el-input /deep/ .el-input__inner {
+    border-radius: 0px;
+}
+
 .el-popover {
   display: flex;
   display: -webkit-flex;
@@ -311,8 +321,9 @@ body {
   display: flex;
   display: -webkit-flex;
   flex-direction: column;
-  width: 100%;
+  max-width: 100%;
   min-height: 100vh;
+  overflow-y: hidden;
 
   #header {
     border-bottom: 1px solid #e1e1e1;
@@ -325,7 +336,7 @@ body {
       // width: 100%;
       box-sizing: border-box;
       padding: 23px 0px;
-      margin:0 auto;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -363,15 +374,15 @@ body {
       //   }
       // }
     }
-    .header-content {
-      width: 100%;
+    .header-content1 {
+      // width: 100%;
       // padding: 0 221px;
       // box-sizing: border-box;
 
       // background-color: #1e2d4c;
       // .cont-wrap {
       // width: 1100px;
-      margin: 0 auto;
+      // margin: 0 auto;
       // display: flex;
       // display: -webkit-flex;
       // flex-flow: row nowrap;
@@ -441,7 +452,7 @@ body {
     }
   }
   .content-link {
-    flex: 1;
+    // flex: 1;
     width: 100%;
 
     /*display: flex;*/

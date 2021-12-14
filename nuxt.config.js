@@ -69,9 +69,9 @@ export default {
 
   proxy: {
     // http://lwkacgr.nat.ipyingshe.com 
-    // http://sdsh.jinkworld.com
+    // http://www.nbssdsh.com
     '/open': {
-      target: 'http://sdsh.jinkworld.com', // 目标接口域名
+      target: 'http://www.nbssdsh.com', // 目标接口域名
       pathRewrite: {
         '^/open': '/open', // 把 /api 替换成 /
         changeOrigin: true // 表示是否跨域

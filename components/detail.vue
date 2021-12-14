@@ -78,10 +78,16 @@ export default {
       this.detailData.cont = this.detailData.cont.replace(
         /<img[^>]*>/gi,
         function (match, capture) {
+          return match.replace(/(<img[^>]*)(\/?>)/gi, "$1width='100%' $2"); // 添加width="100%"
+        }
+      );
+      this.detailData.cont = this.detailData.cont.replace(
+        /<img[^>]*>/gi,
+        function (match, capture) {
           return match.replace(
-            /(<img[^>]*)(\/?>)/gi,
-            "$1style='max-width:100%;height:auto;' $2"
-          );
+            /style\s*?=\s*?([‘"])[\s\S]*?\1/gi,
+            'style="max-width:100%;height:auto;"'
+          ); // 替换style
         }
       );
       //   5s后自动调用浏览量
@@ -98,12 +104,19 @@ export default {
         this.detailData.cont = this.detailData.cont.replace(
           /<img[^>]*>/gi,
           function (match, capture) {
-            return match.replace(
-              /(<img[^>]*)(\/?>)/gi,
-              "$1style='max-width:100%;height:auto;' $2"
-            );
+            return match.replace(/(<img[^>]*)(\/?>)/gi, "$1width='100%' $2"); // 添加width="100%"
           }
         );
+        this.detailData.cont = this.detailData.cont.replace(
+          /<img[^>]*>/gi,
+          function (match, capture) {
+            return match.replace(
+              /style\s*?=\s*?([‘"])[\s\S]*?\1/gi,
+              'style="max-width:100%;height:auto;"'
+            ); // 替换style
+          }
+        );
+
         // 5s后自动调用浏览量
         this.timer = setTimeout(async () => {
           await this.api.readAdd(this.detailId);

@@ -21,7 +21,10 @@
       <p>宁波市山东商会会版权所有</p>
 
       <p>
-        <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer"
+        <a
+          href="https://beian.miit.gov.cn/#/Integrated/index"
+          target="_blank"
+          rel="noopener noreferrer"
           >TCP/IP备案： 浙ICP备17039227号-1
         </a>
       </p>
@@ -40,6 +43,12 @@ export default {
   mounted() {
     // this.cnzz()
     this.getImg();
+    this.getWidth();
+    window.onresize = () => {
+      return (() => {
+        this.getWidth();
+      })();
+    };
   },
   methods: {
     async getImg() {
@@ -62,6 +71,21 @@ export default {
       script.language = "JavaScript";
       script.innerHTML = html;
       // document.getElementById('cnzz').appendChild(script)
+    },
+    getWidth() {
+      let width = document.body.clientWidth;
+      if (width < 1000) {
+        this.width = 1000;
+        this.bWidth = 1000;
+      }
+      if (width >= 1000 && width <= 1200) {
+        this.width = 1000;
+        this.bWidth = width;
+      }
+      if (width > 1200) {
+        this.width = 1200;
+        this.bWidth = width;
+      }
     },
   },
 };
@@ -107,11 +131,14 @@ export default {
     p {
       text-align: center;
       line-height: 30px;
-      font-size: 16px;
+      font-size: 15px;
       color: #ffffff;
       span {
         padding: 0 10px;
       }
+    }
+    a {
+      font-size: 15px;
     }
     a:hover {
       cursor: pointer;

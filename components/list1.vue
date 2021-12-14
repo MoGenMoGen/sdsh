@@ -2,12 +2,13 @@
   <!--只含文字的列表  -->
   <div class="list">
     <div class="item" v-for="(item, index) in List" :key="index">
-      <div class="title">{{ item.title }}</div>
+      <div class="title" @click="toDetail(item)">{{ item.title }}</div>
       <div class="content">
         {{ item.summery
-        }}<span class="btn_detail" @click="toDetail(item)"> 查看详情></span>
+        }}
+        <!-- <span class="btn_detail" @click="toDetail(item)"> 查看详情></span> -->
       </div>
-      <!-- <div class="btn_detail">查看详情></div> -->
+      <div class="btn_detail"  @click="toDetail(item)">查看详情></div>
     </div>
     <!-- 分页 -->
     <div class="Footer">
@@ -17,6 +18,7 @@
         :page-size="pageSize"
         layout="prev, pager, next, jumper"
         :total="total"
+        :current-page="pageNo"
       >
       </el-pagination>
     </div>
@@ -65,6 +67,7 @@ export default {
   watch: {
     id() {
       this.pageNo = 1;
+      console.log(111,this.pageNo);
       this.getList();
     },
   },
@@ -82,6 +85,7 @@ export default {
       font-weight: 400;
       color: #303030;
       margin-bottom: 5px;
+      cursor: pointer;
     }
     .content {
       font-size: 14px;
@@ -94,7 +98,7 @@ export default {
       font-size: 14px;
       font-weight: 400;
       color: #0c76b3;
-      // margin-top: 9px;
+      margin-top: 10px;
       cursor: pointer;
     }
     .btn_detail:hover {

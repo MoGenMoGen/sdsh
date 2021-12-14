@@ -171,7 +171,8 @@ export default {
         font-weight: 400;
         color: #333333;
         line-height: 18px;
-        padding: 2px 0;
+        // padding: 2px 0;
+        padding-bottom:12px;
       }
     }
     .content_list {

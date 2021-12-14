@@ -301,13 +301,19 @@ export default {
         this.info.cont = this.info.cont.replace(
           /<img[^>]*>/gi,
           function (match, capture) {
-            return match.replace(
-              /(<img[^>]*)(\/?>)/gi,
-              "$1style='max-width:100%;height:auto;' $2"
-            );
-            // return match.replace(/style\s*?=\s*?([‘"])[\s\S]*?\1/ig, 'style="max-width:100%;height:auto;"') // 替换style
+            return match.replace(/(<img[^>]*)(\/?>)/gi, "$1width='100%' $2"); // 添加width="100%"
           }
         );
+        this.info.cont = this.info.cont.replace(
+          /<img[^>]*>/gi,
+          function (match, capture) {
+            return match.replace(
+              /style\s*?=\s*?([‘"])[\s\S]*?\1/gi,
+              'style="max-width:100%;height:auto;"'
+            ); // 替换style
+          }
+        );
+
         this.title = "山东商会 - " + this.info.title;
         if (!this.$refs.detail) {
           var myTimer = setInterval(() => {
@@ -684,13 +690,19 @@ export default {
       let index = this.intro.findIndex((item) => item.cid == id);
       if (index >= 0) {
         this.introItem = this.intro[index];
+          this.introItem.cont = this.introItem.cont.replace(
+          /<img[^>]*>/gi,
+          function (match, capture) {
+            return match.replace(/(<img[^>]*)(\/?>)/gi, "$1width='100%' $2"); // 添加width="100%"
+          }
+        );
         this.introItem.cont = this.introItem.cont.replace(
           /<img[^>]*>/gi,
           function (match, capture) {
             return match.replace(
-              /(<img[^>]*)(\/?>)/gi,
-              "$1style='max-width:100%;height:auto;' $2"
-            );
+              /style\s*?=\s*?([‘"])[\s\S]*?\1/gi,
+              'style="max-width:100%;height:auto;"'
+            ); // 替换style
           }
         );
       }

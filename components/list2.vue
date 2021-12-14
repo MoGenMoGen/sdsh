@@ -6,12 +6,13 @@
         <img :src="item.imgUrl" alt="" />
       </div>
       <div class="right">
-        <div class="title">{{ item.title }}</div>
+        <div class="title" @click="toDetail(item)">{{ item.title }}</div>
         <div class="content">
           {{ item.summery
-          }}<span class="btn_detail" @click="toDetail(item)"> 查看详情></span>
+          }}
+          <!-- <span class="btn_detail" @click="toDetail(item)"> 查看详情></span> -->
         </div>
-        <!-- <div class="btn_detail">查看详情></div> -->
+        <div class="btn_detail" @click="toDetail(item)">查看详情></div>
       </div>
     </div>
     <!-- 分页 -->
@@ -20,6 +21,7 @@
         background
         @current-change="handleCurrentChange"
         :page-size="pageSize"
+        :current-page="pageNo"
         layout="prev, pager, next, jumper"
         :total="total"
       >
@@ -43,10 +45,10 @@ export default {
       default: "",
       type: String,
     },
-    keyWord:{
-       default: "",
+    keyWord: {
+      default: "",
       type: String,
-    }
+    },
   },
   methods: {
     handleCurrentChange(val) {
@@ -58,7 +60,7 @@ export default {
         cids: this.id,
         current: this.pageNo,
         size: this.pageSize,
-        cont:this.keyWord
+        cont: this.keyWord,
       });
 
       this.List = data.records;
@@ -77,10 +79,10 @@ export default {
       this.pageNo = 1;
       this.getList();
     },
-    keyWord(){
-       this.pageNo = 1;
+    keyWord() {
+      this.pageNo = 1;
       this.getList();
-    }
+    },
   },
 };
 </script>
@@ -110,6 +112,7 @@ export default {
         font-weight: 400;
         color: #303030;
         margin-bottom: 5px;
+        cursor: pointer;
       }
       .content {
         font-size: 14px;
@@ -122,7 +125,7 @@ export default {
         font-size: 14px;
         font-weight: 400;
         color: #0c76b3;
-        // margin-top: 9px;
+        margin-top: 10px;
         cursor: pointer;
       }
       .btn_detail:hover {

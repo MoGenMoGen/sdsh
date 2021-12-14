@@ -38,8 +38,16 @@ export default {
   },
   methods: {
     async getNav() {
+      this.navList = [
+        {
+          title: "首页",
+          cd: "home",
+          url: "/",
+          showType: 0,
+        },
+      ];
       let data = await this.api.getMenuNav({ parentId: 0 });
-      console.log('navlist',data);
+      console.log("navlist", data);
       data.forEach((item) => {
         if (item.showPos.indexOf("1") > -1) {
           this.navList.push(item);
@@ -66,21 +74,19 @@ export default {
         });
       }
     },
-    getWidth() {
-      let width = 0;
-      let bWidth = 0;
-      let widths = document.body.clientWidth;
-      if (widths < 1000) {
-        width = 1000;
-        bWidth = 1000;
+   getWidth() {
+      let width = document.body.clientWidth;
+      if (width < 1000) {
+        this.width = 1000;
+        this.bWidth = 1000;
       }
-      if (widths >= 1000 && widths <= 1200) {
-        width = widths;
-        bWidth = widths;
+      if (width >= 1000 && width <= 1200) {
+        this.width = 1000;
+        this.bWidth = width;
       }
-      if (widths > 1200) {
+      if (width > 1200) {
         this.width = 1200;
-        this.bWidth = widths;
+        this.bWidth = width;
       }
     },
   },

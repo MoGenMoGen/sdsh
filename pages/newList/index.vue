@@ -7,7 +7,7 @@
       <div class="left">
         <div class="list">
           <div class="title">
-            <span @click="toHome()">首页</span> >
+            <span @click="toHome()">首页></span>
             <p
               v-for="(item, index) in position"
               v-show="position.length > 0 && id != '4688713356973056'"
@@ -24,7 +24,9 @@
               currentMenu.nm
             }}</span> -->
             <span v-show="DYaccout"> >{{ DYaccout }}</span>
-            <span v-show="keyWord && !detailId" style="color: #0c76b3"> {{ keyWord }}</span>
+            <span v-show="keyWord && !detailId" style="color: #0c76b3">
+              {{ keyWord }}</span
+            >
           </div>
           <div class="listMain" v-if="!detailId">
             <!-- 纯文本 -->
@@ -162,7 +164,7 @@ export default {
       nm: "", //传给latestList组件的名字
       showType: 0, //列表展现方式(1.图文 2.全文字 3.视频)
       intro: [], //商会介绍
-      introItem: "",
+      introItem: { title: "", cont: "" },
       leaderId: "", //领导班子职称
     };
   },
@@ -179,29 +181,34 @@ export default {
     this.getInfo();
     this.getName();
     //商会介绍
-    this.intro = await this.api.getListAll({
-      cids: "1458345268556877826",
+    let list = await this.api.getListAll({
+      cids: "1458357934457376770",
       current: 1,
       size: 10,
     });
-    this.intro = this.intro.records;
+    if (list.records.length > 0) {
+      this.introItem = list.records[0];
+      this.introItem.cont = this.introItem.cont.replace(
+        /<img[^>]*>/gi,
+        function (match, capture) {
+          return match.replace(/(<img[^>]*)(\/?>)/gi, "$1width='100%' $2"); // 添加width="100%"
+        }
+      );
+      this.introItem.cont = this.introItem.cont.replace(
+        /<img[^>]*>/gi,
+        function (match, capture) {
+          return match.replace(
+            /style\s*?=\s*?([‘"])[\s\S]*?\1/gi,
+            'style="max-width:100%;height:auto;"'
+          ); // 替换style
+        }
+      );
+    }
     let index = 0;
     if (this.$route.query.sId) {
       index = this.intro.findIndex((item) => item.cid == this.$route.query.sId);
     } else {
       index = this.intro.findIndex((item) => item.cid == "1458357934457376770");
-    }
-    if (index >= 0) {
-      this.introItem = this.intro[index];
-      this.introItem.cont = this.introItem.cont.replace(
-        /<img[^>]*>/gi,
-        function (match, capture) {
-          return match.replace(
-            /(<img[^>]*)(\/?>)/gi,
-            "$1style='max-width:100%;height:auto;' $2"
-          );
-        }
-      );
     }
   },
 
@@ -311,37 +318,42 @@ export default {
           (item) => item.cid == "1458357934457376770"
         );
       }
-      if (index >= 0) {
-        this.introItem = this.intro[index];
-        this.introItem.cont = this.introItem.cont.replace(
-          /<img[^>]*>/gi,
-          function (match, capture) {
-            return match.replace(
-              /(<img[^>]*)(\/?>)/gi,
-              "$1style='max-width:100%;height:auto;' $2"
-            );
-          }
-        );
-      }
+      // if (index >= 0) {
+      //   this.introItem = this.intro[index];
+      //   this.introItem.cont = this.introItem.cont.replace(
+      //     /<img[^>]*>/gi,
+      //     function (match, capture) {
+      //       return match.replace(/(<img[^>]*)(\/?>)/gi, "$1width='100%' $2"); // 添加width="100%"
+      //     }
+      //   );
+      //   this.introItem.cont = this.introItem.cont.replace(
+      //     /<img[^>]*>/gi,
+      //     function (match, capture) {
+      //       return match.replace(
+      //         /style\s*?=\s*?([‘"])[\s\S]*?\1/gi,
+      //         'style="max-width:100%;height:auto;"'
+      //       ); // 替换style
+      //     }
+      //   );
+      // }
     },
   },
   methods: {
     getWidth() {
-      let width = 0;
-      let bWidth = 0;
-      let widths = document.body.clientWidth;
-      if (widths < 1000) {
-        width = 1000;
-        bWidth = 1000;
+      let width = document.body.clientWidth;
+      if (width < 1000) {
+        this.width = 1000;
+        this.bWidth = 1000;
       }
-      if (widths >= 1000 && widths <= 1200) {
-        width = widths;
-        bWidth = widths;
+      if (width >= 1000 && width <= 1200) {
+        this.width = 1000;
+        this.bWidth = width;
       }
-      if (widths > 1200) {
+      if (width > 1200) {
         this.width = 1200;
-        this.bWidth = widths;
+        this.bWidth = width;
       }
+      console.log('列表width',this.width,this.bWidth);
     },
     toHome() {
       this.$router.push({ path: "/" });
@@ -360,11 +372,16 @@ export default {
         this.info.cont = this.info.cont.replace(
           /<img[^>]*>/gi,
           function (match, capture) {
+            return match.replace(/(<img[^>]*)(\/?>)/gi, "$1width='100%' $2"); // 添加width="100%"
+          }
+        );
+        this.info.cont = this.info.cont.replace(
+          /<img[^>]*>/gi,
+          function (match, capture) {
             return match.replace(
-              /(<img[^>]*)(\/?>)/gi,
-              "$1style='max-width:100%;height:auto;' $2"
-            );
-            // return match.replace(/style\s*?=\s*?([‘"])[\s\S]*?\1/ig, 'style="max-width:100%;height:auto;"') // 替换style
+              /style\s*?=\s*?([‘"])[\s\S]*?\1/gi,
+              'style="max-width:100%;height:auto;"'
+            ); // 替换style
           }
         );
         this.title = "山东商会 - " + this.info.title;
@@ -640,30 +657,45 @@ export default {
         this.nm = "";
       }
     },
-    getIntroItem(info) {
-      let index = this.intro.findIndex((item) => item.cid == info.id);
-      if (index >= 0) {
-        // this.introItem = this.intro[index];
-        // this.introItem.cont = this.introItem.cont.replace(
-        //   /<img[^>]*>/gi,
-        //   function (match, capture) {
-        //     return match.replace(
-        //       /(<img[^>]*)(\/?>)/gi,
-        //       "$1style='max-width:100%;height:auto;' $2"
-        //     );
-        //   }
-        // );
-        this.$router.push({
-          path: "/newList",
-          query: {
-            id: this.$route.query.id,
-            nm: this.$route.query.nm,
-            showType: this.$route.query.showType,
-            sNm: info.title,
-            sId: info.id,
-          },
-        });
+    async getIntroItem(info) {
+      let list = await this.api.getListAll({
+        cids: info.id,
+        current: 1,
+        size: 10,
+      });
+      if (list.records.length > 0) {
+        this.introItem = list.records[0];
+        this.introItem.cont = this.introItem.cont.replace(
+          /<img[^>]*>/gi,
+          function (match, capture) {
+            return match.replace(/(<img[^>]*)(\/?>)/gi, "$1width='100%' $2"); // 添加width="100%"
+          }
+        );
+        this.introItem.cont = this.introItem.cont.replace(
+          /<img[^>]*>/gi,
+          function (match, capture) {
+            return match.replace(
+              /style\s*?=\s*?([‘"])[\s\S]*?\1/gi,
+              'style="max-width:100%;height:auto;"'
+            ); // 替换style
+          }
+        );
       }
+
+      // console.log(12434,info);
+      // let index = this.intro.findIndex((item) => item.cid == info.id);
+      // if (index >= 0) {
+      //   this.$router.push({
+      //     path: "/newList",
+      //     query: {
+      //       id: this.$route.query.id,
+      //       nm: this.$route.query.nm,
+      //       showType: this.$route.query.showType,
+      //       sNm: info.title,
+      //       sId: info.id,
+      //     },
+      //   });
+      // }
     },
     handleLeader(info) {
       console.log("父级右侧", info);
@@ -671,7 +703,8 @@ export default {
       this.$router.push({
         path: "/newList",
         query: {
-          id: this.$route.query.id,
+          // id: this.$route.query.id,
+          id: "1458383124973244417",
           nm: this.$route.query.nm,
           showType: this.$route.query.showType,
           sNm: info.title,
@@ -692,8 +725,8 @@ export default {
     background: #fff;
   }
   .newList {
-    min-width: 1000px;
-    overflow: auto;
+    // min-width: 1000px;
+    // overflow: hidden;
     margin: 20px auto;
     display: flex;
     display: -webkit-flex;
@@ -743,8 +776,9 @@ export default {
       }
     }
     .right {
-      overflow: hidden;
-      flex: 1;
+      // overflow: hidden;
+      // flex: 1;
+      width: calc(~"25% - 20px");
       background: #fff;
     }
   }

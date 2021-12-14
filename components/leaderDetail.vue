@@ -55,28 +55,40 @@ export default {
     // 详情
     if (this.detailId) {
       this.info = await this.api.getDetail(this.detailId);
-      this.info.cont = this.info.cont.replace(
-        /<img[^>]*>/gi,
-        function (match, capture) {
-          return match.replace(
-            /(<img[^>]*)(\/?>)/gi,
-            "$1style='max-width:100%;height:auto;' $2"
-          );
-        }
-      );
+        this.info.cont = this.info.cont.replace(
+          /<img[^>]*>/gi,
+          function (match, capture) {
+            return match.replace(/(<img[^>]*)(\/?>)/gi, "$1width='100%' $2"); // 添加width="100%"
+          }
+        );
+        this.info.cont = this.info.cont.replace(
+          /<img[^>]*>/gi,
+          function (match, capture) {
+            return match.replace(
+              /style\s*?=\s*?([‘"])[\s\S]*?\1/gi,
+              'style="max-width:100%;height:auto;"'
+            ); // 替换style
+          }
+        );
     }
   },
   watch: {
     async detailId() {
       if (this.detailId) {
         this.info = await this.api.getDetail(this.detailId);
+         this.info.cont = this.info.cont.replace(
+          /<img[^>]*>/gi,
+          function (match, capture) {
+            return match.replace(/(<img[^>]*)(\/?>)/gi, "$1width='100%' $2"); // 添加width="100%"
+          }
+        );
         this.info.cont = this.info.cont.replace(
           /<img[^>]*>/gi,
           function (match, capture) {
             return match.replace(
-              /(<img[^>]*)(\/?>)/gi,
-              "$1style='max-width:100%;height:auto;' $2"
-            );
+              /style\s*?=\s*?([‘"])[\s\S]*?\1/gi,
+              'style="max-width:100%;height:auto;"'
+            ); // 替换style
           }
         );
       }
