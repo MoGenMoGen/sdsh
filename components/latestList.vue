@@ -90,7 +90,7 @@ export default {
         // console.log('商会介绍',this.introList);
       } else {
         this.introList = [];
-        this.leaderList = [];
+        this.leaderList = [];  
       }
       // console.log('introList',this.introList);
       // console.log('leaderList',this.leaderList);

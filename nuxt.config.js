@@ -8,17 +8,18 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: '山东商会',
+    title: '宁波山东商会',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'keywords', content: '山东商会' },
-      { hid: 'description', name: 'description', content: '山东商会' },
+      { name: 'keywords', content: '宁波山东商会' },
+      { hid: 'description', name: 'description', content: '宁波山东商会' },
       { name: "renderer", content: "webkit" },
       { name: "baidu-site-verification", content: "rL56RVqYF3" }
     ],
     link: [
       // { rel: 'icon', type: 'image/x-icon', href: '/zjfy/favicon.ico' }
+      { rel: 'icon', type: 'image/x-png', href: 'favicon.ico' }
     ],
     script: [
       { src: 'https://ta.8531.cn/c/js/ta.js?mpid=143', id: '_trs_ta_js', async: 'async', defer: 'defer' },

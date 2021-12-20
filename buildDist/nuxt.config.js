@@ -19,6 +19,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/zjfzol/favicon.ico' }
+      // { rel: 'icon', type: 'image/x-icon', href: '' }
     ],
     script: [
       { src: 'https://ta.8531.cn/c/js/ta.js?mpid=143',id:'_trs_ta_js',async:'async',defer:'defer' },

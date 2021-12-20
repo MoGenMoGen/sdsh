@@ -109,10 +109,10 @@ export default {
   watch: {},
   methods: {
     getWidth() {
-      let width = document.body.clientWidth;
+      let width = document.body.clientWidth-17;
       if (width < 1000) {
-        this.width = 1000;
-        this.bWidth = 1000;
+        this.width = 1000-17;
+        this.bWidth = 1000-17;
       }
       if (width >= 1000 && width <= 1200) {
         this.width = 1000;

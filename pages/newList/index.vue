@@ -339,10 +339,10 @@ export default {
     },
   },
   methods: {
-    getWidth() {
-      let width = document.body.clientWidth;
+     getWidth() {
+      let width = document.body.clientWidth-17;
       if (width < 1000) {
-        this.width = 1000;
+        this.width = 1000-17;
         this.bWidth = 1000;
       }
       if (width >= 1000 && width <= 1200) {
@@ -353,7 +353,6 @@ export default {
         this.width = 1200;
         this.bWidth = width;
       }
-      console.log('列表width',this.width,this.bWidth);
     },
     toHome() {
       this.$router.push({ path: "/" });
@@ -384,7 +383,7 @@ export default {
             ); // 替换style
           }
         );
-        this.title = "山东商会 - " + this.info.title;
+        this.title = "宁波山东商会 - " + this.info.title;
         this.currentMenu = {
           nm: "详情",
         };
@@ -412,7 +411,7 @@ export default {
           nm: this.$route.query.nm,
           showType: this.$route.query.showType,
         });
-        this.title = "山东商会 - " + this.$route.query.nm;
+        this.title = "宁波山东商会 - " + this.$route.query.nm;
       }
       if (this.$route.query.sId) {
         this.position.push({
