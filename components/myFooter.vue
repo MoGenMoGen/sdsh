@@ -18,7 +18,7 @@
       <!--<img :src="item.imgUrl"  v-for="(item,index) in img" :key="index" @click="toPage(item.locUrl)" v-if="index<1"/>-->
       <p>举办单位： 宁波市山东商会 业务联系：0574—87091616</p>
       <p>商会地址：宁波市翔云北路99号9号楼10层1001室</p>
-      <p>宁波市山东商会会版权所有</p>
+      <p>宁波市山东商会版权所有</p>
 
       <p>
         <a
